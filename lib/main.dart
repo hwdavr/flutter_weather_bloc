@@ -45,9 +45,7 @@ class _MyHomePageState extends State<MyHomePage> {
         actions: [searchBar.getSearchAction(context)]);
   }
 
-  void onSubmitted(String value) {
-    // setState(() => _scaffoldKey.currentState
-    //     .showSnackBar(SnackBar(content: Text('You wrote $value!'))));
+  void onSearch(String value) {
     cityListBloc.queryCities(value);
   }
 
@@ -56,7 +54,8 @@ class _MyHomePageState extends State<MyHomePage> {
         inBar: false,
         buildDefaultAppBar: buildAppBar,
         setState: setState,
-        onSubmitted: onSubmitted,
+        onSubmitted: onSearch,
+        onChanged: onSearch,
         onCleared: () {
           print("cleared");
         },

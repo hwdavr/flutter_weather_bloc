@@ -19,7 +19,7 @@ class CityListBloc implements Bloc {
 
   void queryCities(String query) {
     if (query.length >= 3) {
-      _citiesSuject.onAdd(query);
+      _citiesSuject.add(query);
     }
   }
 
