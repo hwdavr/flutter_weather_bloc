@@ -4,6 +4,7 @@ import 'package:weather_bloc/bloc/bloc.dart';
 import 'package:weather_bloc/bloc/city_list_bloc.dart';
 import 'package:weather_bloc/models/search_locations.dart';
 import 'package:weather_bloc/screens/weather_screen.dart';
+import 'package:weather_bloc/utils/error_handler.dart';
 
 void main() {
   runApp(MyApp());
@@ -64,6 +65,27 @@ class _MyHomePageState extends State<MyHomePage> {
         });
   }
 
+  _buildCityList(list) {
+    return ListView.separated(
+      itemCount: list.length,
+      itemBuilder: (context, index) {
+        return ListTile(
+          title: Text(list[index].name),
+          onTap: () => {
+            Navigator.push(
+                context,
+                MaterialPageRoute(
+                    builder: (context) =>
+                        WeatherScreen(city: list[index].name)))
+          },
+        );
+      },
+      separatorBuilder: (BuildContext context, int index) {
+        return Divider();
+      },
+    );
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -72,28 +94,12 @@ class _MyHomePageState extends State<MyHomePage> {
       body: StreamBuilder(
           stream: cityListBloc.cityStream,
           builder: (context, snapshot) {
-            final list = snapshot.data as List<SearchLocaltions>;
-            if (list == null) {
+            final result = ErrorHandler(context).handle<List<SearchLocaltions>>(
+                snapshot.data, (list) => _buildCityList(list));
+            if (result == null) {
               return Center(child: Text("No data"));
             } else {
-              return ListView.separated(
-                itemCount: list.length,
-                itemBuilder: (context, index) {
-                  return ListTile(
-                    title: Text(list[index].name),
-                    onTap: () => {
-                      Navigator.push(
-                          context,
-                          MaterialPageRoute(
-                              builder: (context) =>
-                                  WeatherScreen(city: list[index].name)))
-                    },
-                  );
-                },
-                separatorBuilder: (BuildContext context, int index) {
-                  return Divider();
-                },
-              );
+              return result;
             }
           }),
     );
