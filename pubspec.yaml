@@ -31,10 +31,16 @@ dependencies:
   dio: 3.0.10 
   rxdart: ^0.25.0
   flutter_search_bar: ^2.1.0
+  hive: ^1.4.4+1
+  provider: ^4.3.1
+  path_provider: ^1.6.5
 
 dev_dependencies:
   flutter_test:
     sdk: flutter
+
+  build_runner: ^1.9.0
+  hive_generator: ^0.8.2
 
 # For information on the generic Dart part of this file, see the
 # following page: https://dart.dev/tools/pub/pubspec
